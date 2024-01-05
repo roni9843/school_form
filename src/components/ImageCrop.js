@@ -33,6 +33,16 @@ const ImageCrop = ({ setStudent_image }) => {
       setImage("");
     }
   };
+
+  const handleCancel = () => {
+    // Clear the input file and reset the state
+    setImage("");
+    setCroppedImage("");
+    setCrop({ x: 0, y: 0 });
+    setZoom(1);
+    setCroppedAreaPixels("");
+  };
+
   return (
     <div>
       <input
@@ -57,23 +67,36 @@ const ImageCrop = ({ setStudent_image }) => {
       {image && (
         <div
           style={{
-            backgroundColor: "yellow",
-            //  zIndex: "1 !important",
             position: "fixed",
           }}
         >
-          <button
-            onClick={() => {
-              showCroppedImage();
-              setImage("");
-            }}
-          >
-            Crop
-          </button>
+          <div>
+            <button
+              onClick={() => {
+                showCroppedImage();
+                setImage("");
+              }}
+            >
+              Crop
+            </button>
+            <button style={{ backgroundColor: "red" }} onClick={handleCancel}>
+              Cancel
+            </button>
+          </div>
         </div>
       )}
 
       <img src={croppedImage} alt="" style={{ width: "200px" }} />
+
+      {croppedImage && (
+        <div>
+          <div>
+            <button style={{ backgroundColor: "red" }} onClick={handleCancel}>
+              Cancel
+            </button>
+          </div>
+        </div>
+      )}
     </div>
   );
 };
