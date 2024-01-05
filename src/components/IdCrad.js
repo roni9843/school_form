@@ -71,7 +71,7 @@ export default function IdCrad({ student_image, formData }) {
                     width: "50px",
                     justifyContent: "space-between",
                     alignItems: "center",
-                    border: "2px solid black",
+                    border: "1px solid black",
                   }}
                   src={student_image}
                   alt=""
@@ -160,7 +160,7 @@ const IdCard = styled.form`
     display: flex;
     /* align-items: center; */
     justify-content: center;
-    height: 3in;
+    height: 3.2in;
     width: 2in;
     background-color: #eaf9fe;
     font-family: Arial, sans-serif;

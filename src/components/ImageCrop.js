@@ -54,6 +54,24 @@ const ImageCrop = ({ setStudent_image }) => {
           onZoomChange={setZoom}
         />
       )}
+      {image && (
+        <div
+          style={{
+            backgroundColor: "yellow",
+            //  zIndex: "1 !important",
+            position: "fixed",
+          }}
+        >
+          <button
+            onClick={() => {
+              showCroppedImage();
+              setImage("");
+            }}
+          >
+            Crop
+          </button>
+        </div>
+      )}
 
       <img src={croppedImage} alt="" style={{ width: "200px" }} />
     </div>

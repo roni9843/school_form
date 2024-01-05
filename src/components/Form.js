@@ -1,5 +1,7 @@
+import html2canvas from "html2canvas";
 import React, { useEffect, useRef, useState } from "react";
 import styled from "styled-components";
+import "./From.css";
 import ImageCrop from "./ImageCrop";
 
 import ReactToPrint from "react-to-print";
@@ -75,6 +77,36 @@ const StudentForm = () => {
 
   let componentRef = useRef();
 
+  const downloadImage = () => {
+    const table = document.getElementById("table-container");
+
+    html2canvas(table).then(function (canvas) {
+      const link = document.createElement("a");
+      link.download = "table.png";
+      link.href = canvas.toDataURL("image/png");
+      link.click();
+    });
+  };
+
+  const handleDownload = async () => {
+    // Get the reference to the div element
+    const divToDownload = document.getElementById("table-container");
+
+    // Use html2canvas to convert the div to an image with higher quality
+    const canvas = await html2canvas(divToDownload, { scale: 50 }); // Increase the scale for higher resolution
+
+    // Convert the canvas content to a data URL
+    const dataUrl = canvas.toDataURL("image/jpeg");
+
+    // Create a temporary link element
+    const a = document.createElement("a");
+    a.href = dataUrl;
+    a.download = "downloaded_image.jpg"; // Specify the desired file name
+
+    // Trigger a click on the link to start the download
+    a.click();
+  };
+
   return (
     <FormContainer>
       <div className="p-2">
@@ -96,6 +128,48 @@ const StudentForm = () => {
               name="studentName"
               aria-describedby="studentName"
               value={formData.studentName}
+              onChange={handleInputChange}
+            />
+          </div>
+          <div className="mb-3">
+            <label for="studentBloodGrp" className="form-label">
+              রক্ত গ্রুপ :
+            </label>
+            <input
+              type="text"
+              className="form-control"
+              id="studentBloodGrp"
+              name="studentBloodGrp"
+              aria-describedby="studentBloodGrp"
+              value={formData.studentBloodGrp}
+              onChange={handleInputChange}
+            />
+          </div>
+          <div className="mb-3">
+            <label for="studentName9" className="form-label">
+              কোন শ্রেণিতে ভর্তি হতে ইচ্ছুক :
+            </label>
+            <input
+              type="email"
+              className="form-control"
+              id="studentName9"
+              name="class"
+              aria-describedby="studentName9"
+              value={formData.class}
+              onChange={handleInputChange}
+            />
+          </div>
+          <div className="mb-3">
+            <label for="studentRoll" className="form-label">
+              রোল :
+            </label>
+            <input
+              type="number"
+              className="form-control"
+              id="studentRoll"
+              name="studentRoll"
+              aria-describedby="studentRoll"
+              value={formData.studentRoll}
               onChange={handleInputChange}
             />
           </div>
@@ -197,20 +271,7 @@ const StudentForm = () => {
               onChange={handleInputChange}
             />
           </div>
-          <div className="mb-3">
-            <label for="studentName9" className="form-label">
-              কোন শ্রেণিতে ভর্তি হতে ইচ্ছুক :
-            </label>
-            <input
-              type="email"
-              className="form-control"
-              id="studentName9"
-              name="class"
-              aria-describedby="studentName9"
-              value={formData.class}
-              onChange={handleInputChange}
-            />
-          </div>
+
           <div className="mb-3">
             <label for="studentName10" className="form-label">
               অন্য কোন স্কুলে পরে থাকেল সেই স্কুলের নাম :
@@ -352,34 +413,6 @@ const StudentForm = () => {
               onChange={handleInputChange}
             />
           </div>
-          <div className="mb-3">
-            <label for="studentBloodGrp" className="form-label">
-              রক্ত গ্রুপ :
-            </label>
-            <input
-              type="text"
-              className="form-control"
-              id="studentBloodGrp"
-              name="studentBloodGrp"
-              aria-describedby="studentBloodGrp"
-              value={formData.studentBloodGrp}
-              onChange={handleInputChange}
-            />
-          </div>
-          <div className="mb-3">
-            <label for="studentRoll" className="form-label">
-              রোল :
-            </label>
-            <input
-              type="number"
-              className="form-control"
-              id="studentRoll"
-              name="studentRoll"
-              aria-describedby="studentRoll"
-              value={formData.studentRoll}
-              onChange={handleInputChange}
-            />
-          </div>
         </form>
 
         <SubmitButton className="m-3" type="submit">
@@ -389,7 +422,11 @@ const StudentForm = () => {
 
       <div style={{ display: "flex", paddingBottom: "100px" }}>
         <div>
-          <div className="p-2" ref={(el) => (componentRef = el)}>
+          <div
+            id="table-container"
+            className="p-2"
+            ref={(el) => (componentRef = el)}
+          >
             <IdCrad formData={formData} student_image={student_image} />
           </div>
         </div>
@@ -403,6 +440,7 @@ const StudentForm = () => {
             //   documentTitle="new document"
             //   pageStyle="print"
           />
+          <button onClick={handleDownload}>Download</button>
         </div>
       </div>
     </FormContainer>
