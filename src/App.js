@@ -1,14 +1,15 @@
 import "./App.css";
-import StudentForm from "./components/Form";
-import UploadImage from "./components/UploadImage";
+import MainScreen from "./components/MainScreen";
 
 function App() {
   return (
     <div>
-      <UploadImage></UploadImage>
-      <StudentForm></StudentForm>
+      <MainScreen></MainScreen>
     </div>
   );
 }
 
 export default App;
+
+// <UploadImage></UploadImage>
+// <StudentForm></StudentForm>
