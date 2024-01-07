@@ -73,6 +73,32 @@ const StudentForm = () => {
     // Handle form submission logic here
 
     console.log(formData);
+    uploadImageOnline();
+  };
+
+  const uploadImageOnline = async () => {
+    if (student_image) {
+      const apiUrl = "https://api.imgbb.com/1/upload";
+      const apiKey = "b7424c6aa6bf3ab8f5c2a405e70531a2";
+
+      const formData = new FormData();
+      formData.append("key", apiKey);
+      formData.append("image", student_image);
+
+      try {
+        const response = await fetch(apiUrl, {
+          method: "POST",
+          body: formData,
+        });
+
+        const result = await response.json();
+        console.log("Image upload result:", result);
+      } catch (error) {
+        console.error("Image upload error:", error);
+      }
+    } else {
+      console.warn("No image selected.");
+    }
   };
 
   let componentRef = useRef();
@@ -93,7 +119,7 @@ const StudentForm = () => {
     const divToDownload = document.getElementById("table-container");
 
     // Use html2canvas to convert the div to an image with higher quality
-    const canvas = await html2canvas(divToDownload, { scale: 50 }); // Increase the scale for higher resolution
+    const canvas = await html2canvas(divToDownload, { scale: 3 }); // Increase the scale for higher resolution
 
     // Convert the canvas content to a data URL
     const dataUrl = canvas.toDataURL("image/jpeg");
@@ -173,245 +199,248 @@ const StudentForm = () => {
               onChange={handleInputChange}
             />
           </div>
-          <div className="mb-3">
-            <label for="studentName2" className="form-label">
-              পিতার নাম :
-            </label>
-            <input
-              type="email"
-              className="form-control"
-              id="studentName2"
-              name="fathersName"
-              aria-describedby="studentName2"
-              value={formData.fathersName}
-              onChange={handleInputChange}
-            />
-          </div>
-          <div className="mb-3">
-            <label for="studentName3" className="form-label">
-              মাতার নাম :
-            </label>
-            <input
-              type="email"
-              className="form-control"
-              id="studentName3"
-              name="mothersName"
-              aria-describedby="studentName3"
-              value={formData.mothersName}
-              onChange={handleInputChange}
-            />
-          </div>
-          <div className="mb-3">
-            <label for="studentName4" className="form-label">
-              পেশা :
-            </label>
-            <input
-              type="email"
-              className="form-control"
-              id="studentName4"
-              name="father_pesha"
-              aria-describedby="studentName4"
-              value={formData.father_pesha}
-              onChange={handleInputChange}
-            />
-          </div>
-          <div className="mb-3">
-            <label for="studentName5" className="form-label">
-              বর্তমান ঠিকানা :
-            </label>
-            <input
-              type="email"
-              className="form-control"
-              id="studentName5"
-              name="present_address"
-              aria-describedby="studentName5"
-              value={formData.present_address}
-              onChange={handleInputChange}
-            />
-          </div>
-          <div className="mb-3">
-            <label for="studentName6" className="form-label">
-              স্থায়ী ঠিকানা :
-            </label>
-            <input
-              type="email"
-              className="form-control"
-              id="studentName6"
-              name="permanent_address"
-              aria-describedby="studentName6"
-              value={formData.permanent_address}
-              onChange={handleInputChange}
-            />
-          </div>
-          <div className="mb-3">
-            <label for="studentName7" className="form-label">
-              অভিভাবকের নাম ( পিতার অবর্তমানে ) :
-            </label>
-            <input
-              type="email"
-              className="form-control"
-              id="studentName7"
-              name="ovivhaboker_nam"
-              aria-describedby="studentName7"
-              value={formData.ovivhaboker_nam}
-              onChange={handleInputChange}
-            />
-          </div>
-          <div className="mb-3">
-            <label for="studentName8" className="form-label">
-              ঠিকানা :
-            </label>
-            <input
-              type="email"
-              className="form-control"
-              id="studentName8"
-              name="ovivhaboker_thikana"
-              aria-describedby="studentName8"
-              value={formData.ovivhaboker_thikana}
-              onChange={handleInputChange}
-            />
-          </div>
 
-          <div className="mb-3">
-            <label for="studentName10" className="form-label">
-              অন্য কোন স্কুলে পরে থাকেল সেই স্কুলের নাম :
-            </label>
-            <input
-              type="email"
-              className="form-control"
-              id="studentName10"
-              name="previous_school"
-              aria-describedby="studentName10"
-              value={formData.previous_school}
-              onChange={handleInputChange}
-            />
-          </div>
-          <div className="mb-3">
-            <label for="studentName12" className="form-label">
-              ঠিকানা :
-            </label>
-            <input
-              type="email"
-              className="form-control"
-              id="studentName12"
-              name="previous_school_place"
-              aria-describedby="studentName12"
-              value={formData.previous_school_place}
-              onChange={handleInputChange}
-            />
-          </div>
-          <div className="mb-3">
-            <label for="studentName11" className="form-label">
-              অন্য কোন ভাই / বোন স্কুলে পড়ে :
-            </label>
-            <input
-              type="email"
-              className="form-control"
-              id="studentName11"
-              name="others_bro_sis"
-              aria-describedby="studentName11"
-              value={formData.others_bro_sis}
-              onChange={handleInputChange}
-            />
-          </div>
+          <div style={{ display: "none" }}>
+            <div className="mb-3">
+              <label for="studentName2" className="form-label">
+                পিতার নাম :
+              </label>
+              <input
+                type="email"
+                className="form-control"
+                id="studentName2"
+                name="fathersName"
+                aria-describedby="studentName2"
+                value={formData.fathersName}
+                onChange={handleInputChange}
+              />
+            </div>
+            <div className="mb-3">
+              <label for="studentName3" className="form-label">
+                মাতার নাম :
+              </label>
+              <input
+                type="email"
+                className="form-control"
+                id="studentName3"
+                name="mothersName"
+                aria-describedby="studentName3"
+                value={formData.mothersName}
+                onChange={handleInputChange}
+              />
+            </div>
+            <div className="mb-3">
+              <label for="studentName4" className="form-label">
+                পেশা :
+              </label>
+              <input
+                type="email"
+                className="form-control"
+                id="studentName4"
+                name="father_pesha"
+                aria-describedby="studentName4"
+                value={formData.father_pesha}
+                onChange={handleInputChange}
+              />
+            </div>
+            <div className="mb-3">
+              <label for="studentName5" className="form-label">
+                বর্তমান ঠিকানা :
+              </label>
+              <input
+                type="email"
+                className="form-control"
+                id="studentName5"
+                name="present_address"
+                aria-describedby="studentName5"
+                value={formData.present_address}
+                onChange={handleInputChange}
+              />
+            </div>
+            <div className="mb-3">
+              <label for="studentName6" className="form-label">
+                স্থায়ী ঠিকানা :
+              </label>
+              <input
+                type="email"
+                className="form-control"
+                id="studentName6"
+                name="permanent_address"
+                aria-describedby="studentName6"
+                value={formData.permanent_address}
+                onChange={handleInputChange}
+              />
+            </div>
+            <div className="mb-3">
+              <label for="studentName7" className="form-label">
+                অভিভাবকের নাম ( পিতার অবর্তমানে ) :
+              </label>
+              <input
+                type="email"
+                className="form-control"
+                id="studentName7"
+                name="ovivhaboker_nam"
+                aria-describedby="studentName7"
+                value={formData.ovivhaboker_nam}
+                onChange={handleInputChange}
+              />
+            </div>
+            <div className="mb-3">
+              <label for="studentName8" className="form-label">
+                ঠিকানা :
+              </label>
+              <input
+                type="email"
+                className="form-control"
+                id="studentName8"
+                name="ovivhaboker_thikana"
+                aria-describedby="studentName8"
+                value={formData.ovivhaboker_thikana}
+                onChange={handleInputChange}
+              />
+            </div>
 
-          <div className="mb-3">
-            <label for="studentName13" className="form-label">
-              নাম :
-            </label>
-            <input
-              type="email"
-              className="form-control"
-              id="studentName13"
-              name="others_bro_sis_name"
-              aria-describedby="studentName13"
-              value={formData.others_bro_sis_name}
-              onChange={handleInputChange}
-            />
-          </div>
-          <div className="mb-3">
-            <label for="studentName14" className="form-label">
-              শ্রেণি :
-            </label>
-            <input
-              type="email"
-              className="form-control"
-              id="studentName14"
-              aria-describedby="studentName14"
-              name="others_bro_sis_class"
-              value={formData.others_bro_sis_class}
-              onChange={handleInputChange}
-            />
-          </div>
-          <div className="mb-3">
-            <label for="studentName15" className="form-label">
-              শাখা :
-            </label>
-            <input
-              type="email"
-              className="form-control"
-              id="studentName15"
-              name="others_bro_sis_sec"
-              aria-describedby="studentName15"
-              value={formData.others_bro_sis_sec}
-              onChange={handleInputChange}
-            />
-          </div>
-          <div className="mb-3">
-            <label for="studentName16" className="form-label">
-              জন্ম তারিখ :
-            </label>
-            <input
-              type="email"
-              className="form-control"
-              id="studentName16"
-              name="dateOfBirth"
-              aria-describedby="studentName16"
-              value={formData.dateOfBirth}
-              onChange={handleInputChange}
-            />
-          </div>
-          <div className="mb-3">
-            <label for="studentName17" className="form-label">
-              ধর্ম :
-            </label>
-            <input
-              type="email"
-              className="form-control"
-              id="studentName17"
-              name="dhromo"
-              aria-describedby="studentName17"
-              value={formData.dhromo}
-              onChange={handleInputChange}
-            />
-          </div>
-          <div className="mb-3">
-            <label for="studentName18" className="form-label">
-              জাতীয়তা :
-            </label>
-            <input
-              type="email"
-              className="form-control"
-              id="studentName18"
-              name="nationality"
-              aria-describedby="studentName18"
-              value={formData.nationality}
-              onChange={handleInputChange}
-            />
-          </div>
-          <div className="mb-3">
-            <label for="studentName19" className="form-label">
-              জন্ম নিবন্ধন নং :
-            </label>
-            <input
-              type="email"
-              className="form-control"
-              id="studentName19"
-              name="birth_certificate_number"
-              aria-describedby="studentName19"
-              value={formData.birth_certificate_number}
-              onChange={handleInputChange}
-            />
+            <div className="mb-3">
+              <label for="studentName10" className="form-label">
+                অন্য কোন স্কুলে পরে থাকেল সেই স্কুলের নাম :
+              </label>
+              <input
+                type="email"
+                className="form-control"
+                id="studentName10"
+                name="previous_school"
+                aria-describedby="studentName10"
+                value={formData.previous_school}
+                onChange={handleInputChange}
+              />
+            </div>
+            <div className="mb-3">
+              <label for="studentName12" className="form-label">
+                ঠিকানা :
+              </label>
+              <input
+                type="email"
+                className="form-control"
+                id="studentName12"
+                name="previous_school_place"
+                aria-describedby="studentName12"
+                value={formData.previous_school_place}
+                onChange={handleInputChange}
+              />
+            </div>
+            <div className="mb-3">
+              <label for="studentName11" className="form-label">
+                অন্য কোন ভাই / বোন স্কুলে পড়ে :
+              </label>
+              <input
+                type="email"
+                className="form-control"
+                id="studentName11"
+                name="others_bro_sis"
+                aria-describedby="studentName11"
+                value={formData.others_bro_sis}
+                onChange={handleInputChange}
+              />
+            </div>
+
+            <div className="mb-3">
+              <label for="studentName13" className="form-label">
+                নাম :
+              </label>
+              <input
+                type="email"
+                className="form-control"
+                id="studentName13"
+                name="others_bro_sis_name"
+                aria-describedby="studentName13"
+                value={formData.others_bro_sis_name}
+                onChange={handleInputChange}
+              />
+            </div>
+            <div className="mb-3">
+              <label for="studentName14" className="form-label">
+                শ্রেণি :
+              </label>
+              <input
+                type="email"
+                className="form-control"
+                id="studentName14"
+                aria-describedby="studentName14"
+                name="others_bro_sis_class"
+                value={formData.others_bro_sis_class}
+                onChange={handleInputChange}
+              />
+            </div>
+            <div className="mb-3">
+              <label for="studentName15" className="form-label">
+                শাখা :
+              </label>
+              <input
+                type="email"
+                className="form-control"
+                id="studentName15"
+                name="others_bro_sis_sec"
+                aria-describedby="studentName15"
+                value={formData.others_bro_sis_sec}
+                onChange={handleInputChange}
+              />
+            </div>
+            <div className="mb-3">
+              <label for="studentName16" className="form-label">
+                জন্ম তারিখ :
+              </label>
+              <input
+                type="email"
+                className="form-control"
+                id="studentName16"
+                name="dateOfBirth"
+                aria-describedby="studentName16"
+                value={formData.dateOfBirth}
+                onChange={handleInputChange}
+              />
+            </div>
+            <div className="mb-3">
+              <label for="studentName17" className="form-label">
+                ধর্ম :
+              </label>
+              <input
+                type="email"
+                className="form-control"
+                id="studentName17"
+                name="dhromo"
+                aria-describedby="studentName17"
+                value={formData.dhromo}
+                onChange={handleInputChange}
+              />
+            </div>
+            <div className="mb-3">
+              <label for="studentName18" className="form-label">
+                জাতীয়তা :
+              </label>
+              <input
+                type="email"
+                className="form-control"
+                id="studentName18"
+                name="nationality"
+                aria-describedby="studentName18"
+                value={formData.nationality}
+                onChange={handleInputChange}
+              />
+            </div>
+            <div className="mb-3">
+              <label for="studentName19" className="form-label">
+                জন্ম নিবন্ধন নং :
+              </label>
+              <input
+                type="email"
+                className="form-control"
+                id="studentName19"
+                name="birth_certificate_number"
+                aria-describedby="studentName19"
+                value={formData.birth_certificate_number}
+                onChange={handleInputChange}
+              />
+            </div>
           </div>
         </form>
 

@@ -1,13 +1,20 @@
 import React from "react";
 import styled from "styled-components";
+import logo from "../logo/photo_2024-01-06_19-21-29.png";
 
 export default function IdCrad({ student_image, formData }) {
   return (
     <IdCard>
       <div className="body">
         <div>
-          <div style={{ textAlign: "center", paddingTop: "20px" }}>
-            <h3>Logo</h3>
+          <div
+            style={{
+              textAlign: "center",
+              paddingTop: "10px",
+              paddingBottom: "2px",
+            }}
+          >
+            <img src={logo} alt="logo" style={{ width: "50px" }} />
           </div>
           <div>
             <h6
@@ -160,7 +167,7 @@ const IdCard = styled.form`
     display: flex;
     /* align-items: center; */
     justify-content: center;
-    height: 3.2in;
+    height: 3.5in;
     width: 2in;
     background-color: #eaf9fe;
     font-family: Arial, sans-serif;
