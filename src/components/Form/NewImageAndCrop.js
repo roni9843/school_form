@@ -3,12 +3,16 @@ import Cropper from "react-easy-crop";
 import "react-image-crop/dist/ReactCrop.css";
 import getCroppedImg from "./NewGetCroppedImg";
 
-const NewImageAndCrop = ({ setStudent_image, setStudent_imageOnline }) => {
+const NewImageAndCrop = ({
+  setStudent_image,
+  setStudent_imageOnline,
+  croppedImage,
+  setCroppedImage,
+}) => {
   const [crop, setCrop] = useState({ x: 0, y: 0 });
   const [zoom, setZoom] = useState(1);
   const [image, setImage] = useState("");
   const [croppedAreaPixels, setCroppedAreaPixels] = useState("");
-  const [croppedImage, setCroppedImage] = useState("");
 
   const onCropComplete = (croppedArea, croppedAreaPixels) => {
     console.log(croppedArea, croppedAreaPixels);
@@ -99,6 +103,7 @@ const NewImageAndCrop = ({ setStudent_image, setStudent_imageOnline }) => {
     setCrop({ x: 0, y: 0 });
     setZoom(1);
     setCroppedAreaPixels("");
+    document.getElementById("uploadCaptureInputFile").value = "";
   };
 
   return (
@@ -109,6 +114,7 @@ const NewImageAndCrop = ({ setStudent_image, setStudent_imageOnline }) => {
           setImage(URL.createObjectURL(e.target.files[0]));
         }}
         onKeyDown={handleKeyDown}
+        id="uploadCaptureInputFile"
       />
 
       {image && (

@@ -51,10 +51,12 @@ const NewForm = () => {
     studentRoll: "",
     studentBloodGrp: "",
   });
-
+  const [croppedImage, setCroppedImage] = useState("");
   const [student_image, setStudent_image] = useState("");
   const [student_imageOnline, setStudent_imageOnline] = useState("");
   const [loading, setLoading] = useState(false);
+  const [showSuccessMessage, setShowSuccessMessage] = useState(false);
+  const [errorForDup, setErrorForDup] = useState("");
 
   const [errors, setErrors] = useState({
     studentName: "",
@@ -118,12 +120,6 @@ const NewForm = () => {
       setLoading(true);
 
       const returnPostPhoto = await uploadImageOnline(student_imageOnline);
-      // await setFormData({
-      //   ...formData,
-      //   studentImage: returnPostPhoto.data.display_url,
-      // });
-
-      console.log("Updated formData:", formData);
 
       const response = await fetch(
         "https://school-form-backend.vercel.app/api/saveFormData",
@@ -140,18 +136,48 @@ const NewForm = () => {
       );
 
       if (response.ok) {
-        console.log("Form data submitted successfully ", returnPostPhoto);
-        // Additional actions or UI updates on successful submission
+        const responseData = await response.json();
 
-        clearAllValue();
-        setLoading(false);
+        if (responseData.error) {
+          // Handle the case where there's a duplicate entry
+          console.error("Duplicate entry:", responseData.error);
+          setErrorForDup(
+            "Duplicate entry: Student information already exists."
+          );
+
+          setTimeout(() => {
+            setErrorForDup("");
+            setLoading(false);
+          }, 5000);
+          // You can display this error message to the user in your UI
+        } else {
+          console.log("Form data submitted successfully ", returnPostPhoto);
+          setShowSuccessMessage(true);
+
+          clearAllValue();
+
+          setTimeout(() => {
+            setShowSuccessMessage(false);
+            setLoading(false);
+          }, 5000);
+        }
       } else {
         console.error("Failed to submit form data");
-        // Handle error accordingly
+        // Handle other error cases accordingly
+        setErrorForDup("Duplicate entry: Student information already exists.");
+        setTimeout(() => {
+          setErrorForDup("");
+          setLoading(false);
+        }, 5000);
       }
     } catch (error) {
       console.error("Error submitting form data:", error);
       // Handle error accordingly
+      setErrorForDup("Error submitting form data. Please try again.");
+      setTimeout(() => {
+        setErrorForDup("");
+        setLoading(false);
+      }, 5000);
     }
   };
 
@@ -209,12 +235,18 @@ const NewForm = () => {
 
     setStudent_image("");
     setStudent_imageOnline("");
+    document.getElementById("uploadCaptureInputFile").value = "";
+    setCroppedImage("");
+
+    // now create a success msg ..when submit btn click and success then show success msg..but success message shoud show only 10s
   };
 
   return (
     <FormContainer>
       <div className="p-2">
         <NewImageAndCrop
+          croppedImage={croppedImage}
+          setCroppedImage={setCroppedImage}
           setStudent_image={setStudent_image}
           setStudent_imageOnline={setStudent_imageOnline}
         ></NewImageAndCrop>
@@ -310,6 +342,10 @@ const NewForm = () => {
             />
           </div>
         </form>
+        {showSuccessMessage && (
+          <div className="success-message">Form submitted successfully!</div>
+        )}
+        {errorForDup && <div className="error-message">{errorForDup}</div>}
 
         {loading ? (
           "Loading..."

@@ -234,7 +234,7 @@ export default function IdCardDesign({
                       paddingLeft: "0px",
                     }}
                   >
-                    : {studentBloodGrp}
+                    : <span style={{ color: "red" }}>{studentBloodGrp}</span>
                   </span>
                 </div>
               </div>
