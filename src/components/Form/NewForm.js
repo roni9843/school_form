@@ -26,6 +26,7 @@ const ErrorText = styled.div`
 `;
 
 const NewForm = () => {
+  // ? main state
   const [formData, setFormData] = useState({
     studentName: "",
     dateOfBirth: "",
@@ -53,6 +54,7 @@ const NewForm = () => {
 
   const [student_image, setStudent_image] = useState("");
   const [student_imageOnline, setStudent_imageOnline] = useState("");
+  const [loading, setLoading] = useState(false);
 
   const [errors, setErrors] = useState({
     studentName: "",
@@ -113,25 +115,36 @@ const NewForm = () => {
     }
 
     try {
+      setLoading(true);
+
       const returnPostPhoto = await uploadImageOnline(student_imageOnline);
-      setFormData({
-        ...formData,
-        studentImage: returnPostPhoto.data.display_url,
-      });
+      // await setFormData({
+      //   ...formData,
+      //   studentImage: returnPostPhoto.data.display_url,
+      // });
 
       console.log("Updated formData:", formData);
 
-      const response = await fetch("http://localhost:4000/api/saveFormData", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(formData),
-      });
+      const response = await fetch(
+        "https://school-form-backend.vercel.app/api/saveFormData",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            ...formData,
+            studentImage: returnPostPhoto.data.display_url,
+          }),
+        }
+      );
 
       if (response.ok) {
-        console.log("Form data submitted successfully");
+        console.log("Form data submitted successfully ", returnPostPhoto);
         // Additional actions or UI updates on successful submission
+
+        clearAllValue();
+        setLoading(false);
       } else {
         console.error("Failed to submit form data");
         // Handle error accordingly
@@ -166,6 +179,36 @@ const NewForm = () => {
     } else {
       console.warn("No image selected.");
     }
+  };
+
+  const clearAllValue = () => {
+    setFormData({
+      studentName: "",
+      dateOfBirth: "",
+      fathersName: "",
+      session: "",
+      mothersName: "",
+      father_pesha: "",
+      present_address: "",
+      permanent_address: "",
+      ovivhaboker_nam: "",
+      ovivhaboker_thikana: "",
+      class: "",
+      previous_school: "",
+      previous_school_place: "",
+      others_bro_sis: "",
+      others_bro_sis_name: "",
+      others_bro_sis_class: "",
+      others_bro_sis_sec: "",
+      dhromo: "",
+      nationality: "",
+      birth_certificate_number: "",
+      studentRoll: "",
+      studentBloodGrp: "",
+    });
+
+    setStudent_image("");
+    setStudent_imageOnline("");
   };
 
   return (
@@ -268,9 +311,13 @@ const NewForm = () => {
           </div>
         </form>
 
-        <SubmitButton className="m-3" type="submit">
-          Submit
-        </SubmitButton>
+        {loading ? (
+          "Loading..."
+        ) : (
+          <SubmitButton className="m-3" type="submit">
+            Submit
+          </SubmitButton>
+        )}
       </Form>
     </FormContainer>
   );
