@@ -344,7 +344,7 @@ const NewForm = () => {
         </form>
         {showSuccessMessage && (
           <div className="success-message">
-            Form submitted successfully!!!!!!!
+            Form submitted successfully!!!!!!!!!!!
           </div>
         )}
         {errorForDup && <div className="error-message">{errorForDup}</div>}
