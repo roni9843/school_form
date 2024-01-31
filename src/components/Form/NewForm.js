@@ -162,7 +162,7 @@ const NewForm = () => {
           }, 5000);
         }
       } else {
-        console.error("Failed to submit form data");
+        console.error("Failed to submit form data :");
         // Handle other error cases accordingly
         setErrorForDup("Duplicate entry: Student information already exists.");
         setTimeout(() => {
