@@ -78,7 +78,7 @@ export default function IdCardDesign({
       try {
         const selectedStudentId = id; // You need to replace this with the actual student id
         const response = await fetch(
-          `http://localhost:4000/api/deleteStudent?id=${selectedStudentId}`,
+          `https://school-form-backend.vercel.app/api/deleteStudent?id=${selectedStudentId}`,
           {
             method: "DELETE",
             headers: {
