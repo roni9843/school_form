@@ -47,7 +47,7 @@ export default function DashboardMain({ admin }) {
   };
 
   return (
-    <div className="container mt-4">
+    <div>
       {loading ? (
         <p>Loading...</p>
       ) : (
@@ -73,38 +73,41 @@ export default function DashboardMain({ admin }) {
                   ))}
                 </select>
               </div>
-              {students.length === 0 ? (
-                <p>No student data available.</p>
-              ) : (
-                <div className="row">
-                  {students
-                    .filter(
-                      (student) =>
-                        selectedClass === "" || student.class === selectedClass
-                    )
-                    .map((student) => (
-                      <div key={student.id} className="col-md-4 mb-3">
-                        <div className="card">
-                          <div className="card-body">
-                            <IdCardDesign
-                              student_image={student.studentImage}
-                              name={student.studentName}
-                              roll={student.studentRoll}
-                              student_class={student.class}
-                              session={student.session}
-                              studentBloodGrp={student.studentBloodGrp}
-                              admin={admin}
-                              id={student._id}
-                              onDeleteSuccess={handleDeleteSuccess}
-                            />
-                          </div>
-                        </div>
-                      </div>
-                    ))}
-                </div>
-              )}
             </div>
           </div>
+          {students.length === 0 ? (
+            <p>No student data available.</p>
+          ) : (
+            <div>
+              {students
+                .filter(
+                  (student) =>
+                    selectedClass === "" || student.class === selectedClass
+                )
+                .map((student) => (
+                  <div
+                    className="p-2"
+                    style={{
+                      display: "inline-block",
+                    }}
+                  >
+                    <div>
+                      <IdCardDesign
+                        student_image={student.studentImage}
+                        name={student.studentName}
+                        roll={student.studentRoll}
+                        student_class={student.class}
+                        session={student.session}
+                        studentBloodGrp={student.studentBloodGrp}
+                        admin={admin}
+                        id={student._id}
+                        onDeleteSuccess={handleDeleteSuccess}
+                      />
+                    </div>
+                  </div>
+                ))}
+            </div>
+          )}
         </div>
       )}
     </div>
