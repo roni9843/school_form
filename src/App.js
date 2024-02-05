@@ -13,7 +13,7 @@ function App() {
       {role === "login" && <AuthMain setRole={setRole}></AuthMain>}
 
       {role === "moderator" && <MainScreen></MainScreen>}
-      {role === "admin" && <DashboardMain></DashboardMain>}
+      {role === "admin" && <DashboardMain admin={true}></DashboardMain>}
     </div>
   );
 }

@@ -10,6 +10,9 @@ export default function IdCardDesign({
   student_class,
   session,
   studentBloodGrp,
+  admin,
+  id,
+  onDeleteSuccess,
 }) {
   const imageRef = useRef(null);
 
@@ -66,6 +69,40 @@ export default function IdCardDesign({
 
     // Trigger a click on the link to start the download
     a.click();
+  };
+
+  // Function to handle delete button click
+  const handleDeleteClick = async () => {
+    const confirmDelete = window.confirm("Are you sure you want to delete?");
+    if (confirmDelete) {
+      try {
+        const selectedStudentId = id; // You need to replace this with the actual student id
+        const response = await fetch(
+          `http://localhost:4000/api/deleteStudent?id=${selectedStudentId}`,
+          {
+            method: "DELETE",
+            headers: {
+              "Content-Type": "application/json",
+              // Add any other headers needed for your API request
+            },
+            // You can include a request body if your API requires it
+            // body: JSON.stringify({}),
+          }
+        );
+
+        if (response.ok) {
+          // The student was successfully deleted
+          console.log("Student deleted successfully");
+          onDeleteSuccess(id);
+          // Refresh the student data or perform any necessary actions
+        } else {
+          console.error("Failed to delete student");
+          // Handle the error as needed
+        }
+      } catch (error) {
+        console.error("Error deleting student:", error);
+      }
+    }
   };
 
   return (
@@ -242,9 +279,16 @@ export default function IdCardDesign({
           </div>
         </IdCard>
       </div>
-      <div className="p-2">
+      <div className="">
         <button onClick={handleDownloadMain}>Download</button>
       </div>
+      {admin && (
+        <div className="">
+          <button onClick={handleDeleteClick} className="btn btn-danger">
+            Delete
+          </button>
+        </div>
+      )}
     </div>
   );
 }

@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import styled from "styled-components";
+import DashboardMain from "../Dashboard/DashboardMain";
 import "./NewForm.css";
 import NewImageAndCrop from "./NewImageAndCrop";
 
@@ -241,123 +242,151 @@ const NewForm = () => {
     // now create a success msg ..when submit btn click and success then show success msg..but success message shoud show only 10s
   };
 
+  const [page, setPage] = useState("form");
+
   return (
-    <FormContainer>
-      <div className="p-2">
-        <NewImageAndCrop
-          croppedImage={croppedImage}
-          setCroppedImage={setCroppedImage}
-          setStudent_image={setStudent_image}
-          setStudent_imageOnline={setStudent_imageOnline}
-        ></NewImageAndCrop>
-        <ErrorText>{errors.studentImage}</ErrorText>
+    <div>
+      <div className="container mt-4 text-center">
+        <h2 style={{ color: "#3498db" }}>Natun Sonakanda High School</h2>
+        <h6 style={{ color: "gray" }}>- Develop By Jubayth Hossen Roni</h6>
+        <div className="row mt-3">
+          <div className="col-md-6 mx-auto">
+            <button
+              onClick={() => setPage("form")}
+              className="btn btn-success btn-sm btn-block "
+            >
+              Form
+            </button>
+            <button
+              onClick={() => setPage("visit")}
+              className="btn btn-warning btn-sm btn-block"
+            >
+              Visit
+            </button>
+          </div>
+        </div>
       </div>
-
-      <Form onSubmit={handleSubmit}>
-        <form className="p-3">
-          {/* Your other form inputs */}
-          {/* ... */}
-
-          {/* Student Name */}
-          <div className="mb-3">
-            <label htmlFor="studentName" className="form-label">
-              ছাত্র / ছাত্রীর নাম :
-            </label>
-            <input
-              type="text"
-              className="form-control"
-              id="studentName"
-              name="studentName"
-              aria-describedby="studentName"
-              value={formData.studentName}
-              onChange={handleInputChange}
-            />
-            <ErrorText>{errors.studentName}</ErrorText>
+      {page === "form" ? (
+        <FormContainer>
+          <div className="p-2">
+            <NewImageAndCrop
+              croppedImage={croppedImage}
+              setCroppedImage={setCroppedImage}
+              setStudent_image={setStudent_image}
+              setStudent_imageOnline={setStudent_imageOnline}
+            ></NewImageAndCrop>
+            <ErrorText>{errors.studentImage}</ErrorText>
           </div>
 
-          {/* Class */}
-          <div className="mb-3">
-            <label htmlFor="class" className="form-label">
-              কোন শ্রেণিতে ভর্তি হতে ইচ্ছুক :
-            </label>
-            <input
-              type="text"
-              className="form-control"
-              id="class"
-              name="class"
-              aria-describedby="class"
-              value={formData.class}
-              onChange={handleInputChange}
-            />
-            <ErrorText>{errors.class}</ErrorText>
-          </div>
+          <Form onSubmit={handleSubmit}>
+            <form className="p-3">
+              {/* Your other form inputs */}
+              {/* ... */}
 
-          {/* Session */}
-          <div className="mb-3">
-            <label htmlFor="session" className="form-label">
-              Session :
-            </label>
-            <input
-              type="text"
-              className="form-control"
-              id="session"
-              name="session"
-              aria-describedby="session"
-              value={formData.session}
-              onChange={handleInputChange}
-            />
-            <ErrorText>{errors.session}</ErrorText>
-          </div>
+              {/* Student Name */}
+              <div className="mb-3">
+                <label htmlFor="studentName" className="form-label">
+                  ছাত্র / ছাত্রীর নাম :
+                </label>
+                <input
+                  type="text"
+                  className="form-control"
+                  id="studentName"
+                  name="studentName"
+                  aria-describedby="studentName"
+                  value={formData.studentName}
+                  onChange={handleInputChange}
+                />
+                <ErrorText>{errors.studentName}</ErrorText>
+              </div>
 
-          {/* Student Roll */}
-          <div className="mb-3">
-            <label htmlFor="studentRoll" className="form-label">
-              রোল :
-            </label>
-            <input
-              type="number"
-              className="form-control"
-              id="studentRoll"
-              name="studentRoll"
-              aria-describedby="studentRoll"
-              value={formData.studentRoll}
-              onChange={handleInputChange}
-            />
-            <ErrorText>{errors.studentRoll}</ErrorText>
-          </div>
+              {/* Class */}
+              <div className="mb-3">
+                <label htmlFor="class" className="form-label">
+                  কোন শ্রেণিতে ভর্তি হতে ইচ্ছুক :
+                </label>
+                <input
+                  type="text"
+                  className="form-control"
+                  id="class"
+                  name="class"
+                  aria-describedby="class"
+                  value={formData.class}
+                  onChange={handleInputChange}
+                />
+                <ErrorText>{errors.class}</ErrorText>
+              </div>
 
-          {/* Student Blood Group */}
-          <div className="mb-3">
-            <label htmlFor="studentBloodGrp" className="form-label">
-              রক্ত গ্রুপ :
-            </label>
-            <input
-              type="text"
-              className="form-control"
-              id="studentBloodGrp"
-              name="studentBloodGrp"
-              aria-describedby="studentBloodGrp"
-              value={formData.studentBloodGrp}
-              onChange={handleInputChange}
-            />
-          </div>
-        </form>
-        {showSuccessMessage && (
-          <div className="success-message">
-            Form submitted successfully!!!!!!!!!!!
-          </div>
-        )}
-        {errorForDup && <div className="error-message">{errorForDup}</div>}
+              {/* Session */}
+              <div className="mb-3">
+                <label htmlFor="session" className="form-label">
+                  Session :
+                </label>
+                <input
+                  type="text"
+                  className="form-control"
+                  id="session"
+                  name="session"
+                  aria-describedby="session"
+                  value={formData.session}
+                  onChange={handleInputChange}
+                />
+                <ErrorText>{errors.session}</ErrorText>
+              </div>
 
-        {loading ? (
-          "Loading..."
-        ) : (
-          <SubmitButton className="m-3" type="submit">
-            Submit
-          </SubmitButton>
-        )}
-      </Form>
-    </FormContainer>
+              {/* Student Roll */}
+              <div className="mb-3">
+                <label htmlFor="studentRoll" className="form-label">
+                  রোল :
+                </label>
+                <input
+                  type="number"
+                  className="form-control"
+                  id="studentRoll"
+                  name="studentRoll"
+                  aria-describedby="studentRoll"
+                  value={formData.studentRoll}
+                  onChange={handleInputChange}
+                />
+                <ErrorText>{errors.studentRoll}</ErrorText>
+              </div>
+
+              {/* Student Blood Group */}
+              <div className="mb-3">
+                <label htmlFor="studentBloodGrp" className="form-label">
+                  রক্ত গ্রুপ :
+                </label>
+                <input
+                  type="text"
+                  className="form-control"
+                  id="studentBloodGrp"
+                  name="studentBloodGrp"
+                  aria-describedby="studentBloodGrp"
+                  value={formData.studentBloodGrp}
+                  onChange={handleInputChange}
+                />
+              </div>
+            </form>
+            {showSuccessMessage && (
+              <div className="success-message">
+                Form submitted successfully!!!!!!!!!!!
+              </div>
+            )}
+            {errorForDup && <div className="error-message">{errorForDup}</div>}
+
+            {loading ? (
+              "Loading..."
+            ) : (
+              <SubmitButton className="m-3" type="submit">
+                Submit
+              </SubmitButton>
+            )}
+          </Form>
+        </FormContainer>
+      ) : (
+        <DashboardMain admin={false}></DashboardMain>
+      )}
+    </div>
   );
 };
 
